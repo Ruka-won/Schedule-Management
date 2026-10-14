@@ -3,7 +3,7 @@
 ### ✅ 일정 관리 앱 만들기 과제 API 명세서
 
 ---
-## 1. 일정 작성 (schedule Save)
+## 1. 일정 작성 (schedule_save)
 
 * **API URL**: `/schedules`
 * **Method**: `POST`
