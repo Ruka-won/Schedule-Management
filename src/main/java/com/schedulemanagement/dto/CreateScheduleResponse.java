@@ -1,11 +1,7 @@
 package com.schedulemanagement.dto;
 
-
-import lombok.Getter;
-
 import java.time.LocalDateTime;
 
-@Getter
 public class CreateScheduleResponse {
 
     //속성
@@ -27,5 +23,22 @@ public class CreateScheduleResponse {
         this.author = author;
         this.createAt = createAt;
         this.modifiedAt = modifiedAt;
+
+    }
+    //기능
+    public String getTitle() {
+        return this.title;
+    }
+    public String getContents() {
+        return this.contents;
+    }
+    public String getAuthor() {
+        return this.author;
+    }
+    public LocalDateTime getCreateAt() {
+        return this.createAt;
+    }
+    public LocalDateTime getModifiedAt() {
+        return this.modifiedAt;
     }
 }

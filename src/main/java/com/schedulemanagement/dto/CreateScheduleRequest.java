@@ -1,8 +1,6 @@
 package com.schedulemanagement.dto;
 
-import lombok.Getter;
 
-@Getter
 public class CreateScheduleRequest {
     //속성
     /**
@@ -13,4 +11,21 @@ public class CreateScheduleRequest {
     private String author;
     private String password;
 
+
+    //생성자
+
+
+    //기능
+    public String getTitle() {
+        return this.title;
+    }
+    public String getContents() {
+        return this.contents;
+    }
+    public String getAuthor() {
+        return this.author;
+    }
+    public String getPassword() {
+        return this.password;
+    }
 }
