@@ -10,6 +10,7 @@ public class CreateScheduleResponse {
      * 2. 응답으로 클라이언트에게 전송하는 것이니 개인정보보호로 password 포함 안함
      * 3. Id는 DB에서 생성함으로 포함 안함
     * */
+    private final Long id;
     private final String title;
     private final String contents;
     private final String author;
@@ -17,7 +18,8 @@ public class CreateScheduleResponse {
     private final LocalDateTime modifiedAt;
 
     //생성자
-    public CreateScheduleResponse(String title, String contents, String author, LocalDateTime createAt, LocalDateTime modifiedAt) {
+    public CreateScheduleResponse(Long id, String title, String contents, String author, LocalDateTime createAt, LocalDateTime modifiedAt) {
+        this.id = id;
         this.title = title;
         this.contents = contents;
         this.author = author;
@@ -26,6 +28,7 @@ public class CreateScheduleResponse {
 
     }
     //기능
+    public Long getId() { return this.id; }
     public String getTitle() {
         return this.title;
     }
