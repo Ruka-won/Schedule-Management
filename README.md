@@ -1,9 +1,18 @@
 # 📝 API 명세서 (API Documentation)
 
 ### ✅ 일정 관리 앱 만들기 과제 API 명세서
+### API 명세서
+| 기능 | HTTP Method | URL | status Code|
+| :---: | :---: | :---: | :---: |
+|일정 생성 | POST | /schedules | 201 Created |
+|일정 단건 조회 | GET | /schedules/{schedulesId}| 200 OK
+| 일정 전체 조회 | GET | /schedules | 200 OK
+| 일정 수정 | PATCH | /schedules/{schedulesId} | 200 OK
+| 일정 삭제 | DELETE | /schedules/{schedulesId} | 200 OK
+
 
 ---
-## 1. 일정 작성 (schedule_save)
+## 1. 일정 생성
 
 * **API URL**: `/schedules`
 * **Method**: `POST`
@@ -21,31 +30,40 @@
   "modifiedAt" : "일정 수정일"
 }
 ```
-### Request Body 상세 설명
-| Field | DataType | description |
-| :---: | :---: | :---: |
-|title | String | 일정 제목 |
-|content | String | 일정 내용 |
-| author | String | 작성자 |
-| password | String | 일정 수정용 비밀번호 |
-| creatAt | LocalDateTime | 일정 생성일 |
-| modifiedAt | LocalDateTime | 일정 수정일 |
+### Request Body 명세
+| Field | DataType | description | Nullable |
+| :---: | :---: | :---: | :---:
+|title | String | 일정 제목 | false |
+|content | String | 일정 내용 | true | 
+| author | String | 작성자 | true |
+| password | String | 일정 수정용 비밀번호 | false |
+| creatAt | LocalDateTime | 일정 생성일 | - |
+| modifiedAt | LocalDateTime | 일정 수정일 | - |
 
 
 ### Response Body (JSON)
 Status Code : 201 Created
 ```Json
 {
-  "id" : 1
+  "id" : 1,
+  "title": "일정 제목",
+  "content": "일정 내용",
+  "author" : "작성자",
+  "createAt" : "일정 생성일",
+  "modifiedAt" : "일정 수정일"
 }
 ```
-### Response 상세 설명
-| Field | description |
-| :---: | :---: |
-|id | 고유한 식별값 |
-
+### Response Body 상세 설명
+| Field | DataType | description |
+| :---: | :---: | :---: |
+| id | Long | 고유 식별값|
+|title | String | 일정 제목 |
+|content | String | 일정 내용 |
+| author | String | 작성자 |
+| creatAt | LocalDateTime | 일정 생성일 |
+| modifiedAt | LocalDateTime | 일정 수정일 |
 ---
-## 2. 일정 단건 조회(schedule GetOne)
+## 2. 일정 단건 조회
 
 * **API URL**: `/schedules/{id}`
 * **Method**: `GET`
@@ -75,7 +93,7 @@ Status Code : 200 OK
 | creatAt | LocalDateTime | 일정 생성일 |
 | modifiedAt | LocalDateTime | 일정 수정일 |
 ---
-## 3. 일정 다건 조회(schedule GetAll)
+## 3. 일정 다건 조회
 
 * **API URL**: `/schedules`
 * **Method**: `GET`
@@ -86,9 +104,9 @@ Status Code : 200 OK
 Status Code : 200 OK
 ```json
 {
-  "scheduleList" : [
+  [
     {
-      "id" : 1,
+      "id" : 2,
       "title": "일정 제목",
       "content": "일정 내용",
       "author" : "작성자",
@@ -96,7 +114,7 @@ Status Code : 200 OK
       "modifiedAt" : "일정 수정일"
     },
     {
-      "id" : 2,
+      "id" : 1,
       "title": "일정 제목",
       "content": "일정 내용",
       "author" : "작성자",
@@ -118,7 +136,7 @@ Status Code : 200 OK
 | modifiedAt | LocalDateTime | 일정 수정일 |
 
 ---
-## 4. 일정 수정(schedule Update)
+## 4. 일정 수정
 
 * **API URL**: `/schedules/{id}`
 * **Method**: `PATCH`
@@ -129,10 +147,8 @@ Status Code : 200 OK
 ```json
 {
   "title": "일정 제목",
-  "content": "일정 내용",
   "author" : "작성자",
   "password": "일정 수정용 비밀번호",
-  "modifiedAt" : "일정 수정일"
 }
 ```
 ### Request Body 상세 설명
@@ -150,7 +166,6 @@ Status Code : 200 OK
 {
   "id" : 1,
   "title": "수정된 제목",
-  "content": "수정된 내용",
   "autor" : "수정된 작성자",
   "modifiedAt" : "수정된 일정 수정일"
 }
@@ -164,7 +179,7 @@ Status Code : 200 OK
 | author | String | 작성자 |
 | modifiedAt | LocalDateTime | 일정 수정일 |
 ---
-## 5. 일정 삭제(schedule Delete)
+## 5. 일정 삭제
 
 * **API URL**: `/schedules/{id}`
 * **Method**: `DELETE`
@@ -176,11 +191,10 @@ Status Code : 204 No Content
 
 ```json
 {
-  "status": 204
-}
+  "message": 일정이 성공적으로 삭제되었습니다.
 ```
 ### Response Body 상세 설명
 | Field | DataType | description |
 | :---: | :---: | :---: |
-| status | int | status code 응답 (성공 유무) |
+| message | String | 삭제 성공 응답 |
 --- 
