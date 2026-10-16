@@ -72,5 +72,37 @@ public class ScheduleController {
         return ResponseEntity.status(HttpStatus.OK).body(authorList);
     }
 
+    // 4. 일정 수정
+    @PatchMapping("/schedules/{scheduleId}")
+    /*
+     * 4-1. 고유값을 통해서 수정
+     * 4-2. 수정받을 값 클라이언트에게 받기
+     */
+    public ResponseEntity<UpdateScheduleResponse> updateSchedule(
+            @PathVariable Long scheduleId,
+            @RequestBody UpdateScheduleRequest request
+    ) {
+        /*
+         * 4-3. Dto로 포장 받은 값 저장하고 클라이언트에게 전달
+         */
+        UpdateScheduleResponse updateScheduleResponse = scheduleService.updateSchedule(scheduleId, request);
+        return ResponseEntity.status(HttpStatus.OK).body(updateScheduleResponse);
+    }
 
+    // 5. 일정 삭제
+    @DeleteMapping("/schedules/{scheduleId}")
+    // 5-1. 클라이언트에게 삭제되었다는 메세지를 담아주기 위해서 Dto 생성
+    public ResponseEntity<DeleteScheduleResponse> deleteSchedule(
+            @PathVariable Long scheduleId,
+            @RequestParam String password
+    )
+    {
+        // 5-2. 삭제할 고유 식별값 서비스로 전달
+        DeleteScheduleResponse deleteScheduleResponse = scheduleService.delete(scheduleId, password);
+
+
+        return ResponseEntity.status(HttpStatus.OK).body(deleteScheduleResponse);
+
+
+    }
 }

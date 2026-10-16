@@ -43,6 +43,10 @@ public class Schedule extends BaseEntity{
     }
 
     //기능
+    public void updateSchedule(String title, String author)  {
+        this.title = title;
+        this.author = author;
+    }
 
 
 }

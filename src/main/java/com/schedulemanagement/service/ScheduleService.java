@@ -58,6 +58,7 @@ public class ScheduleService {
 
 
     }
+
     // 2. 일정 단 건 조회
     @Transactional(readOnly = true)
     public GetScheduleResponse findOne(Long scheduleId) {
@@ -82,6 +83,7 @@ public class ScheduleService {
                 schedule.getModifiedAt()
         );
     }
+
     // 3. 일정 전체 조회
     @Transactional(readOnly = true)
     public List<GetScheduleResponse> findAll(String author) {
@@ -119,11 +121,55 @@ public class ScheduleService {
                         schedule.getAuthor(),
                         schedule.getCreatedAt(),
                         schedule.getModifiedAt()
-                    ));
-                }
+                ));
             }
+        }
         // 5. 응답 반환
         return filterList;
     }
 
+    // 4. 일정 수정
+    @Transactional
+    public UpdateScheduleResponse updateSchedule(Long scheduleId, UpdateScheduleRequest request) {
+        /*
+         * 4-1. 고유값을 통해서 수정할 값 조회하면서 클라이언트가 요청한 값을 토대로 내용 수정
+         * 4-2. 요청한 값이 존재 하지않을 수 있으니 예외처리를 한다.
+         */
+        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
+                () -> new IllegalStateException("해당 일정이 존재하지 않습니다.")
+        );
+        /*
+         * 4-3. 해당을 업데이트 해주기 위해서 엔티티 부분에 기능 구현을 한다.
+         */
+        schedule.updateSchedule(
+                request.getTitle(),
+                request.getAuthor()
+        );
+        /*
+         * 4-4. Dto로 포장해서 응답 반환
+         */
+        return new UpdateScheduleResponse(
+                schedule.getTitle(),
+                schedule.getAuthor(),
+                schedule.getModifiedAt()
+        );
+    }
+
+    // 5. 일정 삭제
+    public DeleteScheduleResponse delete(Long scheduleId, String password) {
+        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
+                () -> new IllegalStateException("해당 일정이 존재하지 않습니다.")
+        );
+
+        if (!schedule.getPassword().equals(password)) {
+            throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
+        }
+        scheduleRepository.delete(schedule);
+
+        return new DeleteScheduleResponse("일정이 성공적으로 삭제되었습니다.");
+    }
+
 }
+
+
+
